@@ -1,3 +1,27 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities {
+    .form-row {
+        @apply flex flex-col m-4;
+    }
+
+    .error-message {
+        @apply text-red-500 text-center font-bold m-3;
+    }
+
+    .success-message {
+        @apply text-green-500 text-center font-bold m-3;
+    }
+}
+
+body, html {
+    background-color: #f3f3f3;
+}
+
+*:focus-visible,
+*:focus {
+    outline: 0 !important;
+    box-shadow: none !important;
+}
