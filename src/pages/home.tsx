@@ -1,64 +1,77 @@
-import React, { useEffect, useRef, useState } from "react";
-import Button from "../components/Button";
-import Column from "../components/Column";
-import Input from "../components/Input";
-import Paper from "../components/Paper";
-import Row from "../components/Row";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { Input, Paper, Row} from "../components/base";
+import { MovieList } from "../components/movies";
+import { PrimaryButton } from "../components/shared/button";
 import AxiosClient from "../lib/axios";
+import { getAllShowByPage, getAllShowByQuery } from "../lib/sdk/axios";
 import { MovieI, ShowQueryI } from "../models/movie.models";
+
+const config = {
+    itemsPerPage: 20
+};
 
 export default function HomePage() {
 
     const [movies, setMovies] = useState<MovieI[]>([])
-    const [handlePage, setHandlePage] = useState({
-        // crear estado para busqueda y para datos de entrada
-        moreMovies: true
-    })
     const dataRef = useRef<MovieI[]>([])
-    const [query, setQuery] = useState<string>('girls')
+    const [query, setQuery] = useState<string>('')
+
+    const fetchRandomMovies = async () => {
+        dataRef.current = await getAllShowByPage(1)
+        setMovies(dataRef.current.slice(0, config.itemsPerPage))
+    }
+
+    const fetchByQuery = async () => {
+        dataRef.current = await getAllShowByQuery(query)
+        console.log(dataRef.current)
+        const moviesToAdd = dataRef.current.length > config.itemsPerPage ? config.itemsPerPage : dataRef.current.length
+        setMovies(dataRef.current.slice(0, moviesToAdd))
+    }
+
     useEffect(() => {
-        // (async () => {
-        // example de endpoint de busqueda
-        //     const request = await AxiosClient.get(`search/shows?q='${query}`)
-        //     console.log(request.data)
-        //     setMovies(request.data)
-        // })()
-        // llevar esto a otra carpetas
-        (async () => {
-            const request = await AxiosClient.get(`shows?page=1`)
-            dataRef.current = request.data
-            setMovies(dataRef.current.slice(0, 20))
-        })()
+        fetchRandomMovies();
     }, [])
 
+    const getMoviesToAdd = useCallback(() => {
+        const currrentSizeMovies = movies.length
+            , totalSizeMovies = dataRef.current.length
+            , diffSizes = totalSizeMovies - currrentSizeMovies
+            , moviesToAdd = diffSizes >= config.itemsPerPage ? config.itemsPerPage : diffSizes
+        return moviesToAdd
+    }, [movies, dataRef])
+
     const handleMore = () => {
-        if (movies.length + 20 >= dataRef.current.length) return setHandlePage(prev => ({ ...prev, moreMovies: false }))
-        setMovies(prev => ([ ...prev, ...dataRef.current.slice(prev.length, prev.length + 20)]))
+        const moviesToAdd = getMoviesToAdd()
+            , newSizeMovies = movies.length + moviesToAdd
+        setMovies(prev => ([...prev, ...dataRef.current.slice(prev.length, newSizeMovies)]))
     }
 
     return <div className="p-3">
         <Paper className="p-3">
             <Row>
                 <Input
-                    label="Search" 
+                    label="Search"
                     placeholder="e.g. Taxi Driver"
                     className="w-full"
-                    />
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                    onKeyUp={(e) => e.key === 'Enter' ? fetchByQuery() : null}
+                />
+                <PrimaryButton className="mt-4" onClick={fetchByQuery}>
+                    Search
+                </PrimaryButton>
             </Row>
         </Paper>
         <h2 className="font-bold mt-4">Some recomendations</h2>
-        {/** Cambiar en el futuro por COLUMN - ANALIZAR PORQUE ANDA MAL */}
-        <div className={'grid md:grid-cols-5 grid-cols-2 gap-1 mt-3'}>
-            {
-                movies.map((movie, index) => <div key={index} className=" bg-white shadow-sm rounded-sm p-2">
-                    {movie.image && <img src={movie.image.medium} className='w-full h-full object-cover' />}
-                </div>)
-            }
+        <div className='grid grid-flow-row-dense md:grid-cols-5 grid-cols-2 gap-4 mt-3 p-5'>
+            <MovieList list={movies} />
         </div>
-        <div className="flex justify-center w-full mt-3">
-            <Button variant="primary" onClick={handleMore} disabled={!handlePage.moreMovies}>
-                Load More
-            </Button>
-        </div>
+        {
+            getMoviesToAdd() > 0 && <div className="flex justify-center w-full mt-3">
+                <PrimaryButton onClick={handleMore}>
+                    Load More
+                </PrimaryButton>
+            </div>
+        }
     </div>
 }

@@ -1,6 +1,5 @@
 import React from "react"
-
-interface RowProps extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> {}
+import { RowProps } from "./types"
 
 export default function Row({ children, className, ...props }: RowProps) {
     return <div className={`form-row ${className}`} {...props}>

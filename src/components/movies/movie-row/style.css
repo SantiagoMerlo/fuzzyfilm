@@ -1,0 +1,15 @@
+.moview-row-card:hover {
+    opacity: 1;
+    transform: scale(1.2) translateY(-20%);
+    transition: all 250ms ease-out;
+    transition-delay: 200ms;
+    z-index: 999;
+}
+
+.moview-row-detail {
+    display: none;
+}
+
+.moview-row-card:hover .moview-row-detail {
+    display: inline;
+}
