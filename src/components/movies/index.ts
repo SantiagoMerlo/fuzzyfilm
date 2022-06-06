@@ -1,2 +1,2 @@
-export * from './movie-list'
-export * from './movie-row'
+export * from "./movie-list"
+export * from "./movie-row"

@@ -1,4 +1,4 @@
-.moview-row-card:hover {
+.movie-row-card:hover {
     opacity: 1;
     transform: scale(1.2) translateY(-20%);
     transition: all 250ms ease-out;
@@ -6,10 +6,22 @@
     z-index: 999;
 }
 
-.moview-row-detail {
+.movie-row-detail {
     display: none;
 }
 
-.moview-row-card:hover .moview-row-detail {
+.movie-row-card:hover .movie-row-detail {
     display: inline;
+    z-index: 999;
+    bottom: 0px;
+}
+
+.movie-row-summary {
+    height: 50px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: initial;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
 }

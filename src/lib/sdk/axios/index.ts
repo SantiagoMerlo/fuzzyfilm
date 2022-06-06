@@ -21,7 +21,7 @@ export const getAllShowByQuery = async (query: string): Promise<MovieI[]> => {
     }
 }
 
-export const getShowByID = async (id: number): Promise<MovieI | undefined> => {
+export const getShowByID = async (id: string): Promise<MovieI | undefined> => {
     try {
         const request = await AxiosClient.get(`shows/${id}`)
         return request.data as MovieI

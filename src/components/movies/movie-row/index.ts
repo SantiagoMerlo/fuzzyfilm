@@ -1,1 +1,1 @@
-export { default as MovieRow } from './MovieRow'
+export { default as MovieRow } from "./MovieRow"
