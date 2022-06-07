@@ -5,7 +5,6 @@ const Input = React.forwardRef<any, InputProps>(
     (
         {
             value,
-            id,
             label = "",
             helper,
             Icon,

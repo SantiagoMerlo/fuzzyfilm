@@ -8,9 +8,9 @@ export interface MovieI {
     dvdCountry: any,
     ended: string,
     externals: {
-        imdb: string
-        thetvdb: number
-        tvrage: number
+        imdb?: string
+        thetvdb?: number
+        tvrage?: number
     },
     genres: string[],
     id: number,
@@ -30,7 +30,7 @@ export interface MovieI {
     },
     officialSite: string,
     premiered: string
-    rating: { average: number }
+    rating: { average?: number }
     runtime: number
     schedule: { time: string, days: string[] }
     status: string

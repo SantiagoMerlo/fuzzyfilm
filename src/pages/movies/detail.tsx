@@ -51,7 +51,7 @@ export default function MovieDetailsPage() {
                 <div className='text-sm mt-2' dangerouslySetInnerHTML={{ __html: movie.summary }} />
                 {
                     [
-                        { label: "Lenguaje", data: movie.language },
+                        { label: "Lenguage", data: movie.language },
                         { label: "premiered", data: movie.premiered },
                         { label: "ended", data: movie.ended }
                     ].map(({ label, data }, index) => data && <div key={index} className="text-sm mt-3">
@@ -60,7 +60,7 @@ export default function MovieDetailsPage() {
                 }
                 {
                     movie.officialSite && <PrimaryButton className="w-full mt-3" onClick={() => window.open(movie.officialSite)}>
-                        Oficial Web Site
+                        Official Web Site
                     </PrimaryButton>
                 }
             </Paper>

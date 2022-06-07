@@ -1,3 +1,4 @@
+import React from "react";
 import { MovieListProps } from "./types";
 import { MovieRow } from "../movie-row";
 
