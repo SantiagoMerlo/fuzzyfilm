@@ -1,11 +1,11 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { MovieList, SearchMovies } from "../components/movies";
-import { PrimaryButton } from "../components/shared/button";
-import { getAllShowByPage, getAllShowByQuery } from "../lib/sdk/axios";
-import { MovieI } from "../models/movie.models";
+import { MovieList, SearchMovies } from "../../components/movies";
+import { PrimaryButton } from "../../components/shared/button";
+import { getAllShowByPage, getAllShowByQuery } from "../../lib/sdk/axios";
+import { MovieI } from "../../models/movie.models";
 
 const config = {
-    itemsPerPage: 20
+    itemsPerPage: Number(process.env.REACT_APP_ITEMS_LIMIT) || 20
 };
 
 export default function HomePage() {

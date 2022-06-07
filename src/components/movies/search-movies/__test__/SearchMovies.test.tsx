@@ -9,20 +9,20 @@ describe("SearchMovies", () => {
     const mockFetchByQuery = jest.fn(x => null)
 
     it('when you click the button, it should call the function', () => {
-        getMeTheComponent();
+        giveMeTheComponent();
         putSomeScript();
         thenPressButton();
         expect(mockFetchByQuery).toHaveBeenCalledTimes(1)
     })
 
     it('when you press Enter, it should call the function', () => {
-        getMeTheComponent();
+        giveMeTheComponent();
         putSomeScript();
         thenPressEnter();
         expect(mockFetchByQuery).toHaveBeenCalledTimes(1)
     })
 
-    function getMeTheComponent() {
+    function giveMeTheComponent() {
         render(<SearchMovies fetchByQuery={mockFetchByQuery}/>);
     }
 

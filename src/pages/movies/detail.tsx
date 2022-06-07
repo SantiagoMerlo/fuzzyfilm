@@ -4,8 +4,11 @@ import { Chip, Paper } from "../../components/base";
 import { PrimaryButton } from "../../components/shared/button";
 import { getShowByID } from "../../lib/sdk/axios";
 import { MovieI } from "../../models/movie.models";
-import { AiFillStar } from 'react-icons/ai'
-import { IoIosArrowBack } from 'react-icons/io'
+import { AiFillStar } from 'react-icons/ai';
+import { IoIosArrowBack } from 'react-icons/io';
+import { MovieDetails } from "../../components/movies";
+
+const PATH_IMG = '/assets/not-found.png'
 
 export default function MovieDetailsPage() {
 
@@ -31,7 +34,7 @@ export default function MovieDetailsPage() {
         </div>
         <div className="flex mt-3">
             <div className="object-contain md:w-1/5 w-full flex justify-center">
-                <img src={movie.image?.medium} />
+                <img src={movie.image ? movie.image.medium : process.env.PUBLIC_URL + PATH_IMG} />
             </div>
             <Paper className="p-3 md:w-4/5 w-full">
                 <div className="flex items-center mb-3">
@@ -49,15 +52,11 @@ export default function MovieDetailsPage() {
                     <p className="font-bold">Summary</p>
                 </div>
                 <div className='text-sm mt-2' dangerouslySetInnerHTML={{ __html: movie.summary }} />
-                {
-                    [
-                        { label: "Lenguage", data: movie.language },
-                        { label: "premiered", data: movie.premiered },
-                        { label: "ended", data: movie.ended }
-                    ].map(({ label, data }, index) => data && <div key={index} className="text-sm mt-3">
-                        <p><span className="font-bold text-indigo-600 capitalize">{label}:</span> {data}</p>
-                    </div>)
-                }
+                <MovieDetails values={[
+                    { label: "lenguage", data: movie.language },
+                    { label: "premiered", data: movie.premiered },
+                    { label: "ended", data: movie.ended }
+                ]} />
                 {
                     movie.officialSite && <PrimaryButton className="w-full mt-3" onClick={() => window.open(movie.officialSite)}>
                         Official Web Site
@@ -67,3 +66,5 @@ export default function MovieDetailsPage() {
         </div>
     </div> : null
 }
+
+

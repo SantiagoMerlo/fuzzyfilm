@@ -12,8 +12,14 @@ describe("MovieList", () => {
     const mockList = [ {...mockMovie, id: 1}, {...mockMovie, id: 2}, {...mockMovie, id: 3}]
 
     it('should render cards when there are data', async () => {
-        const { baseElement } = giveMeTheComponent(mockList)
+        giveMeTheComponent(mockList)
         mockList.forEach( movie => expect(document.getElementById(movie.id.toString())).not.toBeNull())
+    })
+
+    it('should not render cards when there are not data', async () => {
+        giveMeTheComponent([])
+        const text = screen.queryAllByRole('paragraph')
+        expect(text).toHaveLength(0)
     })
 
     function giveMeTheComponent(movies: MovieI[]) {
